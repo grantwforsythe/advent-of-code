@@ -4,15 +4,26 @@ import (
 	"testing"
 )
 
+type test struct {
+	filename string
+	expected int
+}
+
 func TestSolvePart1(t *testing.T) {
-	rows := parseInput("input_test.txt")
-
-	if len(rows) != 10 && len(rows[0]) != 10 {
-		t.Fatalf("rows does not have the right dimensions")
+	tests := []test{
+		{"input_test.txt", 18},
+		{"test1.txt", 9},
+		{"test2.txt", 1},
+		{"test3.txt", 4},
 	}
 
-	result := solvePart1(rows)
-	if result != 18 {
-		t.Errorf("got %d; expected 18", result)
+	for _, test := range tests {
+		rows := parseInput(test.filename)
+
+		result := solvePart1(rows)
+		if result != test.expected {
+			t.Errorf("got %d; expected %d", result, test.expected)
+		}
 	}
+
 }

@@ -41,7 +41,7 @@ func parseInput(filename string) []string {
 
 func solvePart1(rows []string) int {
 	// Looking at the data we can discern that it is symmetrical and is 140x140
-	// The upperBound is 140 - 1 because arrays are zero-indexed
+	// The upperBound is len(data) - 1 because arrays are zero-indexed
 	upperBound := len(rows) - 1
 
 	count := 0
@@ -52,26 +52,7 @@ func solvePart1(rows []string) int {
 				continue
 			}
 
-			// NOTE: The first value in a slice index is inclusive whereas the last value is exclusive
-
-			// Check that not out of bounds and walk right
-			if rowPos+4 <= upperBound && rows[colPos][rowPos+1:rowPos+4] == "MAS" {
-				count += 1
-			}
-
-			// Check that not out of bounds and walk left
-			if rowPos-3 >= 0 && rows[colPos][rowPos-3:rowPos] == "SAM" {
-				count += 1
-			}
-
-			// Check that not out of bounds and walk down
-			if colPos+3 <= upperBound && (rows[colPos+1][rowPos] == 'M' &&
-				rows[colPos+2][rowPos] == 'A' &&
-				rows[colPos+3][rowPos] == 'S') {
-				count += 1
-			}
-
-			// Check that not out of bounds and walk up
+			// Check that not out of bounds and walk north
 			if colPos-3 >= 0 && (rows[colPos-1][rowPos] == 'M' &&
 				rows[colPos-2][rowPos] == 'A' &&
 				rows[colPos-3][rowPos] == 'S') {
@@ -85,6 +66,13 @@ func solvePart1(rows []string) int {
 				count += 1
 			}
 
+			// NOTE: The first value in a slice index is inclusive whereas the last value is exclusive
+
+			// Check that not out of bounds and walk east
+			if rowPos+3 <= upperBound && rows[colPos][rowPos+1:rowPos+4] == "MAS" {
+				count += 1
+			}
+
 			// Check that not out of bounds and walk south east
 			if colPos+3 <= upperBound && rowPos+3 <= upperBound &&
 				(rows[colPos+1][rowPos+1] == 'M' &&
@@ -93,11 +81,23 @@ func solvePart1(rows []string) int {
 				count += 1
 			}
 
+			// Check that not out of bounds and walk south
+			if colPos+3 <= upperBound && (rows[colPos+1][rowPos] == 'M' &&
+				rows[colPos+2][rowPos] == 'A' &&
+				rows[colPos+3][rowPos] == 'S') {
+				count += 1
+			}
+
 			// Check that not out of bounds and walk south west
 			if colPos+3 <= upperBound && rowPos-3 >= 0 &&
 				(rows[colPos+1][rowPos-1] == 'M' &&
 					rows[colPos+2][rowPos-2] == 'A' &&
 					rows[colPos+3][rowPos-3] == 'S') {
+				count += 1
+			}
+
+			// Check that not out of bounds and walk west
+			if rowPos-3 >= 0 && rows[colPos][rowPos-3:rowPos] == "SAM" {
 				count += 1
 			}
 
